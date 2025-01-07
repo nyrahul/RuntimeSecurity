@@ -52,6 +52,23 @@ ls: cannot access '/etc/shadow': No such file or directory
 command terminated with exit code 2
 ```
 
+```
+...
+🚀 process default/xwing /usr/bin/sh -c "ls -l /etc/shadow"
+🚀 process default/xwing /usr/bin/ls -l /etc/shadow
+💥 exit    default/xwing /usr/bin/ls -l /etc/shadow 0
+💥 exit    default/xwing /usr/bin/sh -c "ls -l /etc/shadow" 0
+🚀 process default/xwing /usr/bin/rm /etc/shadow
+❓ syscall default/xwing /usr/bin/rm security_path_unlink
+💥 exit    default/xwing /usr/bin/rm /etc/shadow SIGKILL
+🚀 process default/xwing /usr/bin/sh -c "ls -l /etc/shadow"
+🚀 process default/xwing /usr/bin/ls -l /etc/shadow
+💥 exit    default/xwing /usr/bin/ls -l /etc/shadow 2
+💥 exit    default/xwing /usr/bin/sh -c "ls -l /etc/shadow" 2
+🚀 process default/xwing /usr/bin/sh -c "rm /etc/shadow"
+💥 exit    default/xwing /usr/bin/sh -c "rm /etc/shadow" 137
+```
+
 Thus, the impact of post-attack mitigation was that the kill signal was handled after the deletion was attempted and thus the sensitive asset could not be saved.
 
 ## Summary
